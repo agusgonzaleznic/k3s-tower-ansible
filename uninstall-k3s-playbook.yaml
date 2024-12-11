@@ -5,6 +5,7 @@
   tasks:
     - name: Ping hosts
       ansible.builtin.ping:
+
     - name: Uninstall k3s agent
       ansible.builtin.command: /usr/local/bin/k3s-agent-uninstall.sh
       register: uninstall_agent_output
@@ -16,6 +17,7 @@
   tasks:
     - name: Ping hosts
       ansible.builtin.ping:
+
     - name: Uninstall k3s server
       ansible.builtin.command: /usr/local/bin/k3s-uninstall.sh
       register: uninstall_server_output
@@ -27,6 +29,7 @@
   tasks:
     - name: Ping hosts
       ansible.builtin.ping:
+
     - name: Uninstall k3s server
       ansible.builtin.command: /usr/local/bin/k3s-uninstall.sh
       register: uninstall_bs_server_output
