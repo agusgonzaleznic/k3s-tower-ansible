@@ -12,7 +12,6 @@ workers:
 masters:
   hosts:
 
-# This hostgroup is designed to only contains the initial bootstrap master node
 bootstrapMaster:
   hosts:
     tower1:
