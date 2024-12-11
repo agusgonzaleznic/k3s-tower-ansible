@@ -14,11 +14,12 @@
       ansible.builtin.command: sed -i -e 's/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/cmdline.txt
       when: "'cgroup_memory=1 cgroup_enable=memory' not in cmdlineContent.stdout"
       notify:
-      - Restart pi
+        - Restart pi
 
   handlers:
     - name: Restart pi
       ansible.builtin.reboot:
+        reboot_timeout: 300
 
 - name: Install k3s bootstrap server
   become: true
@@ -29,11 +30,13 @@
 
     - name: Install k3s bootstrap server
       shell: curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_NODE_NAME={{ inventory_hostname }} K3S_KUBECONFIG_MODE="644" sh -s - server --cluster-init
+      args:
+        creates: /usr/local/bin/k3s
 
     - name: Extract K3S_TOKEN from server output
       ansible.builtin.command: cat /var/lib/rancher/k3s/server/node-token
       register: k3s_token
-      failed_when: k3s_token is failed or k3s_token.stdout is undefined
+      failed_when: k3s_token.rc != 0 or k3s_token.stdout is undefined
 
     - name: Set K3S_TOKEN as a fact
       set_fact:
@@ -47,7 +50,9 @@
       ansible.builtin.ping:
 
     - name: Install k3s servers
-      shell: curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL=https://{{ hostvars['nerminmaster']['ansible_default_ipv4'].address }}:6443 K3S_TOKEN={{ hostvars['nerminmaster']['k3s_token'] }} K3S_NODE_NAME={{ inventory_hostname }} sh -s - server
+      shell: curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL=https://{{ hostvars[groups['bootstrapMaster'][0]]['ansible_default_ipv4'].address }}:6443 K3S_TOKEN={{ hostvars[groups['bootstrapMaster'][0]]['k3s_token'] }} K3S_NODE_NAME={{ inventory_hostname }} sh -s - server
+      args:
+        creates: /usr/local/bin/k3s
 
 - name: Install k3s workers
   become: true
@@ -57,7 +62,9 @@
       ansible.builtin.ping:
 
     - name: Install k3s workers
-      shell: curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL=https://{{ hostvars['nerminmaster']['ansible_default_ipv4'].address }}:6443 K3S_TOKEN={{ hostvars['nerminmaster']['k3s_token'] }} K3S_NODE_NAME={{ inventory_hostname }} sh -
+      shell: curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL=https://{{ hostvars[groups['bootstrapMaster'][0]]['ansible_default_ipv4'].address }}:6443 K3S_TOKEN={{ hostvars[groups['bootstrapMaster'][0]]['k3s_token'] }} K3S_NODE_NAME={{ inventory_hostname }} sh -
+      args:
+        creates: /usr/local/bin/k3s
 
 - name: Fetch k3s kubeconfig
   become: true
@@ -66,5 +73,5 @@
     - name: Fetch kubeconfig
       fetch:
         src: /etc/rancher/k3s/k3s.yaml
-        dest: k3sconfig
+        dest: /path/to/local/k3sconfig
         flat: true
