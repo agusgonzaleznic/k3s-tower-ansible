@@ -9,7 +9,8 @@
     - name: Uninstall k3s agent
       ansible.builtin.command: /usr/local/bin/k3s-agent-uninstall.sh
       register: uninstall_agent_output
-      changed_when: uninstall_agent_output.rc != 0
+      changed_when: uninstall_agent_output.rc == 0
+      failed_when: uninstall_agent_output.rc != 0
 
 - name: Uninstall k3s on servers
   become: true
@@ -21,7 +22,8 @@
     - name: Uninstall k3s server
       ansible.builtin.command: /usr/local/bin/k3s-uninstall.sh
       register: uninstall_server_output
-      changed_when: uninstall_server_output.rc != 0
+      changed_when: uninstall_server_output.rc == 0
+      failed_when: uninstall_server_output.rc != 0
 
 - name: Uninstall k3s on bootstrap servers
   become: true
@@ -33,4 +35,5 @@
     - name: Uninstall k3s server
       ansible.builtin.command: /usr/local/bin/k3s-uninstall.sh
       register: uninstall_bs_server_output
-      changed_when: uninstall_bs_server_output.rc != 0
+      changed_when: uninstall_bs_server_output.rc == 0
+      failed_when: uninstall_bs_server_output.rc != 0
