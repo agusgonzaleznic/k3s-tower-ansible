@@ -1,0 +1,36 @@
+---
+- name: Uninstall K3s from workers
+  hosts: workers
+  become: true
+  tasks:
+    - name: Ping workers
+      ansible.builtin.ping:
+
+    - name: Uninstall K3s agent
+      ansible.builtin.command: /usr/local/bin/k3s-agent-uninstall.sh
+      register: uninstall_agent_output
+      changed_when: uninstall_agent_output.rc == 0
+
+- name: Uninstall K3s from masters
+  hosts: masters
+  become: true
+  tasks:
+    - name: Ping masters
+      ansible.builtin.ping:
+
+    - name: Uninstall K3s server
+      ansible.builtin.command: /usr/local/bin/k3s-uninstall.sh
+      register: uninstall_server_output
+      changed_when: uninstall_server_output.rc == 0
+
+- name: Uninstall K3s from bootstrap master
+  hosts: bootstrapMaster
+  become: true
+  tasks:
+    - name: Ping bootstrap master
+      ansible.builtin.ping:
+
+    - name: Uninstall K3s server
+      ansible.builtin.command: /usr/local/bin/k3s-uninstall.sh
+      register: uninstall_bs_server_output
+      changed_when: uninstall_bs_server_output.rc == 0

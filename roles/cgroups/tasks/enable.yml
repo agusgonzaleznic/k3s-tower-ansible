@@ -1,0 +1,22 @@
+---
+- name: Enabling cgroups
+  become: true
+  hosts: pies
+  tasks:
+    - name: Ping hosts
+      ansible.builtin.ping:
+
+    - name: Check if cgroups are enabled
+      ansible.builtin.command: cat /boot/firmware/cmdline.txt
+      register: cmdlineContent
+
+    - name: Enable cgroups
+      ansible.builtin.command: sed -i -e 's/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/firmware/cmdline.txt
+      when: "'cgroup_memory=1 cgroup_enable=memory' not in cmdlineContent.stdout"
+      notify:
+        - Restart pi
+
+  handlers:
+    - name: Restart pi
+      ansible.builtin.reboot:
+        reboot_timeout: 300
