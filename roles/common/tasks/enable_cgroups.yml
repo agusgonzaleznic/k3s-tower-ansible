@@ -14,9 +14,4 @@
       ansible.builtin.command: sed -i -e 's/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/firmware/cmdline.txt
       when: "'cgroup_memory=1 cgroup_enable=memory' not in cmdlineContent.stdout"
       notify:
-        - Restart pi
-
-  handlers:
-    - name: Restart pi
-      ansible.builtin.reboot:
-        reboot_timeout: 300
+        - Reboot node

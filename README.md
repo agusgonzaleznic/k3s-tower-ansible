@@ -22,12 +22,6 @@ k3s-tower-ansible/
 │       ├── master1.yml
 │       └── worker1.yml
 ├── roles/
-│   ├── cgroups/
-│   │   ├── tasks/
-│   │   │   ├── main.yml
-│   │   │   └── enable.yml
-│   │   └── handlers/
-│   │       └── main.yml
 │   ├── bootstrap/
 │   │   ├── tasks/
 │   │   │   ├── main.yml

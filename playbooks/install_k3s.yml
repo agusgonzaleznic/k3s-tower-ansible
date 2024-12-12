@@ -1,8 +1,8 @@
 ---
-- name: Configure cgroups
+- name: General configurations
   hosts: pies
   roles:
-    - cgroups
+    - common
 
 - name: Install K3s bootstrap server
   hosts: bootstrapMaster

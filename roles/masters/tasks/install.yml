@@ -31,25 +31,3 @@
       shell: curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL=https://{{ hostvars[groups['bootstrapMaster'][0]]['ansible_default_ipv4'].address }}:6443 K3S_TOKEN={{ hostvars[groups['bootstrapMaster'][0]]['k3s_token'] }} K3S_NODE_NAME={{ inventory_hostname }} sh -s - server
       args:
         creates: /usr/local/bin/k3s
-
-- name: Install k3s workers
-  become: true
-  hosts: workers
-  tasks:
-    - name: Ping hosts
-      ansible.builtin.ping:
-
-    - name: Install k3s workers
-      shell: curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION={{ k3s_version }} K3S_URL=https://{{ hostvars[groups['bootstrapMaster'][0]]['ansible_default_ipv4'].address }}:6443 K3S_TOKEN={{ hostvars[groups['bootstrapMaster'][0]]['k3s_token'] }} K3S_NODE_NAME={{ inventory_hostname }} sh -
-      args:
-        creates: /usr/local/bin/k3s
-
-- name: Fetch k3s kubeconfig
-  become: true
-  hosts: bootstrapMaster
-  tasks:
-    - name: Fetch kubeconfig
-      fetch:
-        src: /etc/rancher/k3s/k3s.yaml
-        dest: /path/to/local/k3sconfig
-        flat: true

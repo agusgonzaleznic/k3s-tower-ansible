@@ -1,9 +1,72 @@
 ---
+ci:
+  autoupdate_commit_msg: "chore: pre-commit autoupdate"
+  autoupdate_schedule: monthly
+  autofix_commit_msg: "chore: auto fixes from pre-commit.com hooks"
+  skip:
+    - pip-compile
+    - pyright
+    - schemas
+  submodules: true
+# exclude: >
+#   (?x)^(
+#     .config/constraints.txt|
+#     .config/.*requirements.*|
+#     .vscode/extensions.json|
+#     .vscode/settings.json
+#   )$
+
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: meta
+    hooks:
+      - id: check-useless-excludes
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        # Temporary commented out to avoud uselessness
+        exclude: >
+          (?x)^(
+            .*\.md$
+          )$
+        always_run: true
+        additional_dependencies:
+          - prettier@3.2.4
+          - prettier-plugin-sort-json@3.1.0
+
+  # - repo: https://github.com/streetsidesoftware/cspell-cli
+  #   rev: v8.16.1
+  #   hooks:
+  #     - id: cspell
+  #       name: Spell check with cspell
+  #       args: [--relative, --no-progress, --no-summary]
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.30.0
+    hooks:
+      - id: check-github-workflows
+        args: ["--verbose"]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks.git
     rev: v5.0.0
     hooks:
-      - id: check-merge-conflict
+      - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: fix-byte-order-marker
+      - id: check-merge-conflict
       - id: check-symlinks
       - id: check-yaml
+      - id: check-added-large-files
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        files: \.(yaml|yml)$
+        types: [file, yaml]
+        entry: yamllint --strict
