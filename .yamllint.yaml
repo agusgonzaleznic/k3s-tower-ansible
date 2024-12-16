@@ -22,10 +22,10 @@ rules:
   #   required: only-when-needed
 ignore: |
   .tox
-  examples/playbooks/example.yml
-  examples/playbooks/syntax-error-string.yml
-  examples/playbooks/vars/not_decryptable.yml
-  test/schemas/negative_test/**/*.yml
-  test/schemas/test/**/*.yml
+  examples/playbooks/example.yaml
+  examples/playbooks/syntax-error-string.yaml
+  examples/playbooks/vars/not_decryptable.yaml
+  test/schemas/negative_test/**/*.yaml
+  test/schemas/test/**/*.yaml
 
 # ignore added because this file includes on-purpose errors

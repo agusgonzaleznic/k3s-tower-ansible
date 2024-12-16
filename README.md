@@ -1,58 +1,58 @@
 # Usage
 You can use --check for a dry run
-ie: ansible-playbook playbooks/install_k3s.yml --check
+ie: ansible-playbook playbooks/install_k3s.yaml --check
 Run the playbooks as needed:
-Ininstall: ansible-playbook playbooks/install_k3s.yml
-Uninstall: ansible-playbook playbooks/uninstall_k3s.yml
-Fetch Kubeconfig: ansible-playbook playbooks/fetch_kubeconfig.yml
-Validate Cluster: ansible-playbook playbooks/validate_cluster.yml
+Ininstall: ansible-playbook playbooks/install_k3s.yaml
+Uninstall: ansible-playbook playbooks/uninstall_k3s.yaml
+Fetch Kubeconfig: ansible-playbook playbooks/fetch_kubeconfig.yaml
+Validate Cluster: ansible-playbook playbooks/validate_cluster.yaml
 
 # File structure
 k3s-tower-ansible/
 ├── ansible.cfg
 ├── inventory/
-│   ├── hosts.yml
+│   ├── hosts.yaml
 │   ├── group_vars/
-│   │   ├── all.yml
-│   │   ├── pies.yml
-│   │   ├── masters.yml
-│   │   └── workers.yml
+│   │   ├── all.yaml
+│   │   ├── pies.yaml
+│   │   ├── masters.yaml
+│   │   └── workers.yaml
 │   └── host_vars/
-│       ├── bootstrapMaster.yml
-│       ├── master1.yml
-│       └── worker1.yml
+│       ├── bootstrapMaster.yaml
+│       ├── master1.yaml
+│       └── worker1.yaml
 ├── roles/
 │   ├── bootstrap/
 │   │   ├── tasks/
-│   │   │   ├── main.yml
-│   │   │   └── install.yml
+│   │   │   ├── main.yaml
+│   │   │   └── install.yaml
 │   │   └── files/
 │   │       └── custom-k3s-install-script.sh
 │   ├── masters/
 │   │   ├── tasks/
-│   │   │   ├── main.yml
-│   │   │   └── install.yml
+│   │   │   ├── main.yaml
+│   │   │   └── install.yaml
 │   │   └── templates/
 │   │       └── kubeconfig.j2
 │   ├── workers/
 │   │   ├── tasks/
-│   │   │   ├── main.yml
-│   │   │   └── install.yml
+│   │   │   ├── main.yaml
+│   │   │   └── install.yaml
 │   └── uninstall/
 │       ├── tasks/
-│       │   ├── main.yml
-│       │   ├── uninstall_servers.yml
-│       │   ├── uninstall_workers.yml
+│       │   ├── main.yaml
+│       │   ├── uninstall_servers.yaml
+│       │   ├── uninstall_workers.yaml
 │       └── handlers/
-│           └── main.yml
+│           └── main.yaml
 ├── playbooks/
-│   ├── install_k3s.yml
-│   ├── uninstall_k3s.yml
-│   ├── fetch_kubeconfig.yml
-│   └── validate_cluster.yml
+│   ├── install_k3s.yaml
+│   ├── uninstall_k3s.yaml
+│   ├── fetch_kubeconfig.yaml
+│   └── validate_cluster.yaml
 ├── vars/
-│   ├── common.yml
-│   └── k3s.yml
+│   ├── common.yaml
+│   └── k3s.yaml
 ├── files/
 │   └── custom-cmdline.txt
 └── README.md

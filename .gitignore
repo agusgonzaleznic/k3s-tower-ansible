@@ -57,9 +57,9 @@ src/ansiblelint/_version.py
 # them from being reformatted (.prettierignore is a symlink to .gitignore)
 test/fixtures/formatting-before/
 # prettier should not edit this due to forcibly extra-long lines
-examples/playbooks/vars/strings.transformed.yml
+examples/playbooks/vars/strings.transformed.yaml
 # prettier should not edit this due to intentionally spaced nesting
-examples/playbooks/vars/transform_nested_data.yml
+examples/playbooks/vars/transform_nested_data.yaml
 
 # other
 *.tar.gz

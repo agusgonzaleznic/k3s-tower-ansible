@@ -44,7 +44,7 @@ use_default_rules: true
 
 # Ansible-lint is able to recognize and load skip rules stored inside
 # `.ansible-lint-ignore` (or `.config/ansible-lint-ignore.txt`) files.
-# To skip a rule just enter filename and tag, like "playbook.yml package-latest"
+# To skip a rule just enter filename and tag, like "playbook.yaml package-latest"
 # on a new line.
 # Optionally you can add comments after the tag, prefixed by "#". We discourage
 # the use of skip_list below because that will hide violations from the output.
@@ -84,7 +84,7 @@ warn_list:
 # write_list:
 #   - all
 
-# Offline mode disables installation of requirements.yml and schema refreshing
+# Offline mode disables installation of requirements.yaml and schema refreshing
 offline: true
 
 # Define required Ansible's variables to satisfy syntax check
@@ -103,10 +103,10 @@ extra_vars:
 # match list, first match determines the file kind.
 kinds:
   # - playbook: "**/examples/*.{yml,yaml}"
-  # - galaxy: "**/folder/galaxy.yml"
-  # - tasks: "**/tasks/*.yml"
-  # - vars: "**/vars/*.yml"
-  # - meta: "**/meta/main.yml"
+  # - galaxy: "**/folder/galaxy.yaml"
+  # - tasks: "**/tasks/*.yaml"
+  # - vars: "**/vars/*.yaml"
+  # - meta: "**/meta/main.yaml"
   - yaml: "**/*.yaml-too"
 
 # List of additional collections to allow in only-builtins rule.

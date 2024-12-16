@@ -25,5 +25,5 @@ jobs:
 
       - name: Run a test playbook
         run: |
-          ansible-playbook -i inventory/hosts.yml playbooks/*.yml --syntax-check
-          ansible-playbook -i inventory/hosts.yml playbooks/*.yml --check
+          ansible-playbook -i inventory/hosts.yaml playbooks/*.yaml --syntax-check
+          ansible-playbook -i inventory/hosts.yaml playbooks/*.yaml --check
