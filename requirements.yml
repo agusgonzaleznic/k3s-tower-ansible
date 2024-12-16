@@ -8,4 +8,4 @@ collections:
 roles:
   - name: geerlingguy.docker
     src: geerlingguy.docker
-    version: "latest"
+    version: "7.4.3"

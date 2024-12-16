@@ -1,3 +1,4 @@
+---
 name: Pre-commit Checks
 
 on:
@@ -15,7 +16,7 @@ jobs:
         uses: actions/setup-python@v5.3.0
         with:
           python-version: "3.11"
-          cache: 'pip'
+          cache: "pip"
 
       - name: Install pre-commit
         run: |
