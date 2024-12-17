@@ -1,0 +1,20 @@
+---
+- name: General configurations
+  hosts: pies
+  roles:
+    - common
+
+- name: Install K3s bootstrap server
+  hosts: bootstrapMaster
+  roles:
+    - bootstrap
+
+- name: Install K3s servers
+  hosts: masters
+  roles:
+    - masters
+
+- name: Install K3s workers
+  hosts: workers
+  roles:
+    - workers

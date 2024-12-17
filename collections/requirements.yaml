@@ -1,0 +1,13 @@
+---
+# Ansible collections
+collections:
+  - name: ansible.utils
+  - name: community.general
+  - name: ansible.posix
+  - name: kubernetes.core
+
+# Roles
+roles:
+  - name: geerlingguy.docker
+    src: geerlingguy.docker
+    version: "7.4.3"

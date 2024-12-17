@@ -1,0 +1,44 @@
+---
+- name: Install k3s bootstrap server
+  become: true
+  hosts: bootstrapMaster
+  tasks:
+    - name: Ping host
+      ansible.builtin.ping:
+
+    - name: Install k3s bootstrap server
+      shell: >
+        curl -sfL https://get.k3s.io |
+        INSTALL_K3S_VERSION={{ k3s_version }}
+        K3S_NODE_NAME={{ inventory_hostname }}
+        K3S_KUBECONFIG_MODE="644"
+        sh -s - server --cluster-init
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Extract K3S_TOKEN from server output
+      ansible.builtin.command: cat /var/lib/rancher/k3s/server/node-token
+      register: k3s_token
+      failed_when: k3s_token.rc != 0 or k3s_token.stdout is undefined
+
+    - name: Set K3S_TOKEN as a fact
+      set_fact:
+        k3s_token: "{{ k3s_token.stdout }}"
+
+- name: Install k3s servers
+  become: true
+  hosts: masters
+  tasks:
+    - name: Ping hosts
+      ansible.builtin.ping:
+
+    - name: Install k3s servers
+      shell: >
+        curl -sfL https://get.k3s.io |
+        INSTALL_K3S_VERSION={{ k3s_version }}
+        K3S_URL=https://{{ hostvars[groups['bootstrapMaster'][0]]['ansible_default_ipv4'].address }}:6443
+        K3S_TOKEN={{ hostvars[groups['bootstrapMaster'][0]]['k3s_token'] }}
+        K3S_NODE_NAME={{ inventory_hostname }}
+        sh -s - server
+      args:
+        creates: /usr/local/bin/k3s
