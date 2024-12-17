@@ -84,7 +84,7 @@ if [[ "$K3S_ROLE" == "server" ]]; then
     --node-name="$K3S_NODE_NAME" \
     --token="$K3S_TOKEN" \
     --kubeconfig-mode="$K3S_KUBECONFIG_MODE" \
-    $K3S_EXTRA_ARGS
+    "$K3S_EXTRA_ARGS"
 elif [[ "$K3S_ROLE" == "agent" ]]; then
   if [[ -z "$K3S_URL" ]]; then
     echo "Error: --url is required for agent nodes"
@@ -95,7 +95,7 @@ elif [[ "$K3S_ROLE" == "agent" ]]; then
     --server="$K3S_URL" \
     --node-name="$K3S_NODE_NAME" \
     --token="$K3S_TOKEN" \
-    $K3S_EXTRA_ARGS
+    "$K3S_EXTRA_ARGS"
 else
   echo "Error: Invalid role specified. Use --role server|agent."
   print_usage

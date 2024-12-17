@@ -3,15 +3,24 @@
   become: true
   hosts: pies
   tasks:
-    - name: Ping hosts
+    - name: enable_cgroups | Ping hosts
       ansible.builtin.ping:
 
-    - name: Check if cgroups are enabled
-      ansible.builtin.command: cat /boot/firmware/cmdline.txt
-      register: cmdlineContent
+    - name: enable_cgroups | Check if cgroups are enabled
+      ansible.builtin.slurp:
+        src: /boot/firmware/cmdline.txt
+      register: cmdline_content
 
-    - name: Enable cgroups
-      ansible.builtin.command: sed -i -e 's/$/ cgroup_memory=1 cgroup_enable=memory/' /boot/firmware/cmdline.txt
-      when: "'cgroup_memory=1 cgroup_enable=memory' not in cmdlineContent.stdout"
+    - name: enable_cgroups | Enable cgroups if not already enabled
+      ansible.builtin.lineinfile:
+        path: /boot/firmware/cmdline.txt
+        line: "cgroup_memory=1 cgroup_enable=memory"
+        insertafter: EOF
+      when: "'cgroup_memory=1 cgroup_enable=memory' not in cmdline_content['content'] | b64decode"
       notify:
-        - Reboot node
+        - enable_cgroups | Reboot node
+
+  handlers:
+    - name: enable_cgroups | Reboot node
+      ansible.builtin.reboot:
+        msg: "Rebooting the node to apply cgroup changes."

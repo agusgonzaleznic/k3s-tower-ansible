@@ -8,13 +8,6 @@ ci:
     - pyright
     - schemas
   submodules: true
-# exclude: >
-#   (?x)^(
-#     .config/constraints.txt|
-#     .config/.*requirements.*|
-#     .vscode/extensions.json|
-#     .vscode/settings.json
-#   )$
 
 repos:
   - repo: meta
@@ -25,7 +18,6 @@ repos:
     rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
-        # Temporary commented out to avoud uselessness
         exclude: >
           (?x)^(
             .*\.md$
@@ -34,13 +26,6 @@ repos:
         additional_dependencies:
           - prettier@3.2.4
           - prettier-plugin-sort-json@3.1.0
-
-  # - repo: https://github.com/streetsidesoftware/cspell-cli
-  #   rev: v8.16.1
-  #   hooks:
-  #     - id: cspell
-  #       name: Spell check with cspell
-  #       args: [--relative, --no-progress, --no-summary]
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.30.0
@@ -52,7 +37,6 @@ repos:
     rev: v5.0.0
     hooks:
       - id: end-of-file-fixer
-      - id: trailing-whitespace
       - id: mixed-line-ending
       - id: fix-byte-order-marker
       - id: check-merge-conflict
@@ -62,6 +46,11 @@ repos:
       - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
+      - id: requirements-txt-fixer
+      - id: sort-simple-yaml
+      - id: detect-private-key
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
 
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.35.1
@@ -70,3 +59,25 @@ repos:
         files: \.(yaml|yml)$
         types: [file, yaml]
         entry: yamllint --strict
+        args: [-c=.yamllint]
+
+  - repo: https://github.com/ansible-community/ansible-lint.git
+    rev: v24.12.2
+    hooks:
+      - id: ansible-lint
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+      - id: remove-crlf
+      - id: remove-tabs
+
+  - repo: https://github.com/sirosen/texthooks
+    rev: 0.6.8
+    hooks:
+      - id: fix-smartquotes
